@@ -27,7 +27,7 @@ export default function ChartCard({ title, children, autoHeight = false }) {
         boxShadow: theme === "dark"
             ? "0 0 0 1px #222"
             : "0 0 0 1px #e4e4e4ff",
-        // si está visible, disparamos la animación una vez
+        // si está visible, se disparala animación una vez
         animation: visible ? "innerPulse 0.9s ease-out 1" : "none",
       }}
     >

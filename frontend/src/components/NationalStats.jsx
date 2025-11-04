@@ -47,7 +47,7 @@ function Kpi({ label, value, extra, small = false }) {
   return (
     <div
       style={{
-        background: theme === "dark" ? "#292929ff" : "#44609cff",
+        background: theme === "dark" ? "#292929ff" : "#5477c2ff",
         border: "1px solid rgba(148,163,184,0.09)",
         borderRadius: "0.7rem",
         padding: small ? ".35rem .6rem" : ".5rem .75rem",

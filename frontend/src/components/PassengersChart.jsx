@@ -20,7 +20,7 @@ export default function PassengersChart({ lineCode = "D", animate = true }) {
   const bg = theme === "dark" ? "#111827" : "#ffffff";
   const gridColor = theme === "dark" ? "#1f2937" : "#04080F";
   const axisColor = theme === "dark" ? "#e2e8f0" : "#04080F";
-  const lineColor = theme === "dark" ? "#38bdf8" : "#44609cff";
+  const lineColor = theme === "dark" ? "#38bdf8" : "#5477c2ff";
   const tooltipLabel = theme === "dark" ? "#fff" : "#04080F";
 
   useEffect(() => {

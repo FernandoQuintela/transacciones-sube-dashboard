@@ -103,7 +103,7 @@ function App() {
               style={{
                 fontSize: "1.6rem",
                 margin: 0,
-                color: theme === "dark" ? "#f8fafc" : "#44609cff",
+                color: theme === "dark" ? "#f8fafc" : "#5477c2ff",
               }}
             >
               Dashboard interactivo de Transacciones SUBE

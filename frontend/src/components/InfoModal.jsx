@@ -157,24 +157,24 @@ export default function InfoModal({ open, onClose }) {
             <p style={{ fontSize: ".85rem", margin: ".2rem 0" }}>
               💼{" "}
               <a
-                href="https://www.linkedin.com/in/tu-perfil"
+                href="https://www.linkedin.com/in/fernando-quintela-605565230/"
                 target="_blank"
                 rel="noreferrer"
                 style={{ color: "#38bdf8" }}
               >
-                linkedin.com/in/tu-perfil
+                linkedin.com/in/fernando-quintela
               </a>
             </p>
 
             <p style={{ fontSize: ".85rem", margin: ".2rem 0" }}>
               🐙{" "}
               <a
-                href="https://github.com/tu-usuario/transporte-dashboard"
+                href="https://github.com/FernandoQuintela/transacciones-sube-dashboard"
                 target="_blank"
                 rel="noreferrer"
                 style={{ color: "#38bdf8" }}
               >
-                github.com/tu-usuario/transporte-dashboard
+                github.com/FernandoQuintela/transacciones-sube-dashboard
               </a>
             </p>
           </div>

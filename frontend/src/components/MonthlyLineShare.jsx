@@ -1,96 +1,81 @@
 import { useEffect, useState } from "react";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
 // Colores oficiales de las líneas de subte
 const LINE_COLORS = {
-  A: "#66ccff",  // celeste
-  B: "#ff6680",  // rojo
-  C: "#5695ecff",  // azul
-  D: "#37a85dff",  // verde
-  E: "#b08bfaff",  // violeta
-  H: "#ffe666",  // amarillo
-  PM: "#6e6e6e", // gris
+  A: "#66ccff",
+  B: "#ff6680",
+  C: "#5695ecff",
+  D: "#37a85dff",
+  E: "#b08bfaff",
+  H: "#ffe666",
+  PM: "#6e6e6e",
 };
-
-// si alguna línea no está, usa gris oscuro
 const getColor = (line) => LINE_COLORS[line] || "#4b5563";
 
 export default function MonthlyLineShare() {
   const [data, setData] = useState([]);
   const [monthLabel, setMonthLabel] = useState("");
+  const [status, setStatus] = useState("loading");
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch(`${API_URL}/api/stats`)
+    setStatus("loading");
+    fetch(`${API_URL}/api/monthly-share`)
       .then((r) => r.json())
       .then((rows) => {
-        if (!rows || rows.length === 0) {
+        if (!Array.isArray(rows) || rows.length === 0) {
           setData([]);
+          setStatus("empty");
           return;
         }
-
-        const months = rows
-          .map((r) => r.date?.slice(0, 7))
-          .filter(Boolean);
-        const latest = months.sort().at(-1); // "2025-10"
-
-        const latestRows = rows.filter((r) => r.date && r.date.startsWith(latest));
-
-        const byLine = latestRows.reduce((acc, item) => {
-          const line = item.line || "SIN LÍNEA";
-          acc[line] = (acc[line] || 0) + (item.passengers || 0);
-          return acc;
-        }, {});
-
-        const pieData = Object.entries(byLine)
-          .map(([line, value]) => ({ name: line, value }))
-          .sort((a, b) => b.value - a.value);
-
-        setData(pieData);
-        setMonthLabel(latest);
+        // rows ya viene con: line, value, percent, monthLabel
+        setData(rows);
+        setMonthLabel(rows[0]?.monthLabel || "");
+        setStatus("ok");
+      })
+      .catch(() => {
+        setStatus("error");
+        setData([]);
       });
   }, [API_URL]);
 
+  if (status === "loading") return <p style={{ opacity: 0.6 }}>Cargando...</p>;
+  if (status === "error")   return <p style={{ opacity: 0.6 }}>No pude cargar el mes.</p>;
+  if (data.length === 0)    return <p style={{ opacity: 0.6 }}>No hay datos para este mes.</p>;
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      {data.length === 0 ? (
-        <p style={{ opacity: 0.6, fontSize: ".8rem" }}>No hay datos para este mes.</p>
-      ) : (
-        <>
-          <p style={{ fontSize: ".7rem", opacity: 0.5, marginBottom: ".5rem" }}>
-            Mes: {formatMonth(monthLabel)}
-          </p>
-          <ResponsiveContainer width="100%" height={270}>
-            <PieChart>
-              <Pie
-                data={data}
-                dataKey="value"
-                nameKey="name"
-                innerRadius={60}
-                outerRadius={84}
-                paddingAngle={2}
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}`}
-                labelLine={false}
-              >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={getColor(entry.name)} />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(v) => v.toLocaleString("es-AR")}
-                contentStyle={{ background: "#e0e8fcff", border: "none" }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </>
-      )}
+      <p style={{ fontSize: ".7rem", opacity: 0.5, marginBottom: ".5rem" }}>
+        Mes: {monthLabel}
+      </p>
+
+      <ResponsiveContainer width="100%" height={270}>
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="line"
+            innerRadius={60}
+            outerRadius={84}
+            paddingAngle={2}
+            label={({ line, percent }) => `${line} ${(percent).toFixed(1)}%`}
+            labelLine={false}
+          >
+            {data.map((entry, i) => (
+              <Cell key={i} fill={getColor(entry.line)} />
+            ))}
+          </Pie>
+
+          <Tooltip
+            formatter={(v, _n, item) => {
+              const p = item?.payload?.percent ?? 0;
+              return [`${Number(v).toLocaleString("es-AR")} (${(p).toFixed(1)}%)`, `Línea ${item?.payload?.line}`];
+            }}
+            contentStyle={{ background: "#e0e8fcff", border: "none" }}
+          />
+        </PieChart>
+      </ResponsiveContainer>
     </div>
   );
-}
-
-function formatMonth(ym) {
-  if (!ym) return "";
-  const [y, m] = ym.split("-");
-  const nombres = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-  return `${nombres[Number(m) - 1]} ${y}`;
 }
