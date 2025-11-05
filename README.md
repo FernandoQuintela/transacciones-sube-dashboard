@@ -5,12 +5,24 @@ El dashboard muestra patrones de movilidad urbana y nacional a partir de más de
 
 ---
 
+## 🌐 Versión online
+
+🖥 Frontend (Vercel):
+🔗 https://transacciones-sube-dashboard.vercel.app/
+
+⚙️ Backend (Render):
+🔗 https://sube-api.onrender.com/
+
+(API pública — /api/lines, /api/stats?line=D, /api/metrics, /api/ranking, /api/monthly-share)
+
+---
+
 ## 📖 Descripción general
 
 **Dashboard de Transacciones SUBE** es una aplicación full stack que analiza y presenta la información del transporte público argentino a través de un entorno moderno y fluido.  
 Permite explorar estadísticas por línea de subte, tipo de transporte y nivel nacional, todo con visualizaciones dinámicas y adaptadas a modo **dark/light**.
 
-Este proyecto fue desarrollado por **Fernando Quintela** como parte de su portfolio profesional en **desarrollo Full Stack y QA técnico**, con foco en integraciones reales, visualización de datos y despliegue completo.
+Este proyecto fue desarrollado por **Fernando Quintela** como parte de su portfolio profesional en **desarrollo Full Stack y QA técnico**, con foco en integraciones reales, visualización de datos y despliegue completo en la nube.
 
 ---
 
@@ -42,8 +54,8 @@ Y también, crear algo útil y estéticamente coherente que cualquier persona pu
 **Backend:**
 - Node.js + Express
 - XLSX (lectura y normalización de datos)
-- CORS / JSON endpoints REST
-- Railway o Render (hosting del backend)
+- CORS / Endpoints REST JSON
+- Render (hosting del backend con API pública)
 
 **Datos:**
 - Dataset público SUBE (Ministerio de Transporte / datos.gob.ar)
@@ -57,11 +69,11 @@ Y también, crear algo útil y estéticamente coherente que cualquier persona pu
 git clone https://github.com/ferquintela/transacciones-sube-dashboard.git
 cd transacciones-sube-dashboard
 
-# Instalar dependencias en backend
+# Instalar dependencias backend
 cd backend
 npm install
 
-# Instalar dependencias en frontend
+# Instalar dependencias frontend
 cd ../frontend
 npm install
 ```
@@ -107,21 +119,22 @@ transacciones-sube-dashboard/
 │
 ├── backend/
 │   ├── data/
+│   │   ├── subte_2025.xlsx
+│   │   └── precomputed/
 │   ├── src/
 │   │   ├── index.js
-│   │   ├── routes/
-│   │   └── utils/
-│   ├── package.json
+│   │   └── routes/
+│   └── tools/
+│       └── precompute.js
 │
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
 │   │   ├── context/
-│   │   ├── hooks/
-│   │   └── assets/
-│   ├── index.css
+│   │   ├── assets/
+│   │   └── hooks/
 │   ├── vite.config.js
-│   └── package.json
+│   └── .env (solo local)
 │
 └── README.md
 ```
@@ -154,12 +167,11 @@ https://datos.transporte.gob.ar/dataset/sube-cantidad-de-transacciones-usos-por-
 
 ## 💼 Autor: Fernando Quintela
 
-🧾 CV: cv-es.pdf
-🧾 cv-en.pdf
+🔗 LinkedIn
+https://www.linkedin.com/in/fernando-quintela-605565230/
 
----
-
-## 🚀 Versión online (deploy): [pendiente de publicar]
+💻 Github 
+https://github.com/FernandoQuintela/transacciones-sube-dashboard
 
 ---
 
@@ -172,5 +184,5 @@ Fuente de datos: dominio público (Gobierno de Argentina).
 
 ## 🎯 Objetivo final
 
-Mostrar la integración completa entre backend, frontend, visualización y despliegue, en un entorno visualmente atractivo, limpio y profesional.
-Un dashboard real, accesible y mantenible —hecho desde cero.
+Demostrar la integración completa entre backend, frontend, visualización y despliegue, en un entorno profesional y mantenible.
+Un dashboard real, rápido y accesible, hecho desde cero.
